@@ -100,6 +100,6 @@ app.use(function (err, req, res, next) {
 var server = app.listen(PORT, HOST, function () {
   var host = server.address().address;
   var port = server.address().port;
-  winston.info("Service listening at http://" + host + ":" + port);
+  winston.info('Service listening at http://' + host + ':' + port);
   winston.info('Log level is at: ' + LOG_LEVEL);
 });

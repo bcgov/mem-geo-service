@@ -28,28 +28,33 @@ ExportController.prototype.exportGeoJson = function exportGeoJson(req, res, next
 
 ExportController.prototype.toGeoJson = function toGeoJson(projects) {
   var geojsonObject = {
-    type: "FeatureCollection",
+    type: 'FeatureCollection',
     features: projects.map(function (obj) { return createSpatialFeature(obj); })
   };
 
   return geojsonObject;
 };
 
-function createSpatialFeature(obj) {
-  // remove spatial properties; add project url
-  var props = _.chain(obj)
-    .omit('lat', 'lon', 'userCan')
-    .merge({
-      projectUrl: combineUris(process.env.SERVER_URL, '/p/' + obj.code + '/detail')
-    })
-    .value();
-
-  return {
+function createSpatialFeature(project) {
+  var feature = {
     type: 'Feature',
     geometry: {
       type: 'Point',
-      coordinates: [obj.lon, obj.lat]
+      coordinates: [project.lon, project.lat]
     },
-    properties: props
+    properties: null
   };
+
+  // remove spatial properties; add project url
+  var props = _.chain(project)
+    .omit('lat', 'lon', 'userCan')
+    .merge({
+      projectUrl: combineUris(process.env.SERVER_URL, '/p/' + project.code + '/detail')
+    })
+    .value();
+
+  // Stash all relevant properties from the source object (project) into the spatial feature
+  feature.properties = props;
+
+  return feature;
 };
