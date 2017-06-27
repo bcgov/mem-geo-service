@@ -17,7 +17,7 @@ function EaoRestConnector(options) {
 
   this._opts = _.merge(defaults, options);
   this._filter = _.pick(this._opts, 'q', 'fields');
-};
+}
 
 EaoRestConnector.prototype.findProjects = function findProjects(filter) {
   var path = this._opts.path;

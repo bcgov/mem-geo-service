@@ -12,7 +12,7 @@ function ExportController(options) {
     throw new Error('The server must be started with a connected data source');
   }
   this._connector = options.connector;
-};
+}
 
 ExportController.prototype.exportGeoJson = function exportGeoJson(req, res, next) {
   var self = this;
@@ -57,4 +57,4 @@ function createSpatialFeature(project) {
   feature.properties = props;
 
   return feature;
-};
+}

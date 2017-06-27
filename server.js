@@ -5,10 +5,15 @@ var bodyParser          = require('body-parser');
 var helmet              = require('helmet');
 var morgan              = require('morgan');
 var winston             = require('winston');
-var dotenv              = require('dotenv').config();
+var dotenv              = require('dotenv');
 
 var EaoRestConnector    = require('./services/eao-rest-connector');
 var routes              = require('./api/routes');
+
+// Dotenv is a zero-dependency module that loads environment variables from a .env file into 'process.env'
+// The .env file is for development purposes only. It should NEVER be committed to version control.
+// https://github.com/motdotla/dotenv
+dotenv.config();
 
 ////////////////////////////////////////////////////////
 /*
@@ -19,7 +24,6 @@ var routes              = require('./api/routes');
 var PORT                = process.env.PORT || 1337;
 var HOST                = process.env.HOST || 'localhost';
 var NODE_ENV            = process.env.NODE_ENV || 'development';
-var IS_PRODUCTION       = process.env.NODE_ENV === 'production';
 var LOG_LEVEL           = process.env.LOG_LEVEL || 'debug';
 var SERVER_URL          = process.env.SERVER_URL || 'http://localhost:3000';
 var PROJECT_API_PATH    = process.env.PROJECT_API_PATH || '/api/query/project';
@@ -53,7 +57,7 @@ app.use(helmet());
 
 // development only
 // https://github.com/expressjs/morgan
-if (app.get('env') === 'development') {
+if (NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
@@ -77,8 +81,8 @@ app.use(function (req, res, next) {
 
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function (err, req, res, next) {
+if (NODE_ENV === 'development') {
+  app.use(function (err, req, res) {
     res.status(err.status || 500);
     res.json({
       message: err.message,
@@ -89,7 +93,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function (err, req, res, next) {
+app.use(function (err, req, res) {
   res.status(err.status || 500);
   res.json({
     message: err.message,

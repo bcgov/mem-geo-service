@@ -12,11 +12,11 @@ module.exports.RestRequest = RestRequest;
 
 function combineUris(baseUri, relativeUri) {
   return relativeUri ? _.trimEnd(baseUri, '/') + '/' + _.trimStart(relativeUri, '/') : baseUri;
-};
+}
 
 function buildApiPath(path) {
   return combineUris(SERVER_URL, path);
-};
+}
 
 function jsonRequest(path, options) {
   var defaults = {
@@ -30,11 +30,11 @@ function jsonRequest(path, options) {
 
   var opts = _.merge(defaults, options || {});
   return request(opts);
-};
+}
 
 function RestRequest(path) {
   this.path = buildApiPath(path);
-};
+}
 
 RestRequest.prototype.get = function apiGet(params) {
   return jsonRequest(this.path, { method: 'GET', qs: params });

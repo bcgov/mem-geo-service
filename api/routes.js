@@ -27,4 +27,4 @@ function apiRoutes(options) {
   });
 
   return router;
-};
+}

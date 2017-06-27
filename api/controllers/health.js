@@ -13,13 +13,13 @@ function HealthController(options) {
   };
 
   this._service = _.isFunction(options.healthService) ? options.healthService : defaultService;
-};
+}
 
 HealthController.prototype.health = function () {
   return this._service.health();
 };
 
-HealthController.prototype.healthCheck = function healthCheck(req, res, next) {
+HealthController.prototype.healthCheck = function healthCheck(req, res) {
   var serverHealth = this.health();
   res.status(status.OK).json(serverHealth);
 };
