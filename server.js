@@ -1,109 +1,64 @@
-'use strict';
+(function () {
 
-var express             = require('express');
-var bodyParser          = require('body-parser');
-var helmet              = require('helmet');
-var morgan              = require('morgan');
-var winston             = require('winston');
-var dotenv              = require('dotenv');
+  'use strict';
 
-var EaoRestConnector    = require('./services/eao-rest-connector');
-var routes              = require('./api/routes');
+  var _ = require('lodash');
+  var dotenv = require('dotenv');
+  var winston = require('winston');
 
-// Dotenv is a zero-dependency module that loads environment variables from a .env file into 'process.env'
-// The .env file is for development purposes only. It should NEVER be committed to version control.
-// https://github.com/motdotla/dotenv
-dotenv.config();
+  var server = require('./server/app');
+  var repository = require('./server/repository/repository');
 
-////////////////////////////////////////////////////////
-/*
- * Deployment Configuration
- */
-////////////////////////////////////////////////////////
+  // Dotenv is a zero-dependency module that loads environment variables from a .env file into 'process.env'
+  // The .env file is for development purposes only. It should NEVER be committed to version control.
+  // https://github.com/motdotla/dotenv
+  dotenv.config();
 
-var PORT                = process.env.PORT || 1337;
-var HOST                = process.env.HOST || 'localhost';
-var NODE_ENV            = process.env.NODE_ENV || 'development';
-var LOG_LEVEL           = process.env.LOG_LEVEL || 'debug';
-var SERVER_URL          = process.env.SERVER_URL || 'http://localhost:3000';
-var PROJECT_API_PATH    = process.env.PROJECT_API_PATH || '/api/query/project';
-var DATA_FIELDS         = process.env.DATA_FIELDS || '_id code eacDecision lat lon description currentPhase epicProjectID name proponent status type sector';
+  // DEPLOYMENT CONFIGURATION
+  // =============================================================================
+  process.env.PORT = process.env.PORT || 1337;
+  process.env.HOST = process.env.HOST || '0.0.0.0';
+  process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+  process.env.LOG_LEVEL = process.env.LOG_LEVEL || 'debug';
+  process.env.SERVER_URL = process.env.SERVER_URL || 'http://localhost:3000';
+  process.env.PROJECT_API_PATH = process.env.PROJECT_API_PATH || '/api/query/project';
+  process.env.DATA_FIELDS = process.env.DATA_FIELDS || '_id code eacDecision lat lon description currentPhase epicProjectID name proponent status type sector';
 
-////////////////////////////////////////////////////////
-/*
- * Logger init
- */
-////////////////////////////////////////////////////////
+  var config = {
+    repo: null,
+    port: process.env.PORT,
+    host: process.env.HOST,
+    logger: {
+      level: process.env.LOG_LEVEL
+    },
+    restSettings: {
+      baseUrl: process.env.SERVER_URL,
+      path: process.env.PROJECT_API_PATH,
+      fields: process.env.DATA_FIELDS
+    }
+  };
 
-winston.level = LOG_LEVEL;
-winston.remove(winston.transports.Console);
-winston.add(winston.transports.Console, { 'timestamp': true, 'colorize': true });
+  // START THE SERVER
+  // =============================================================================
+  var rep;
+  repository.connect(config)
+    .then(function (repo) {
+      rep = repo;
+      var newConfig = _.merge({}, config, { repo: repo });
 
-////////////////////////////////////////////////////////
-/*
- * App Startup
- */
-////////////////////////////////////////////////////////
+      // repository connected, start the server
+      return server.start(newConfig);
+    })
+    .then(function (app) {
+      var host = app.address().address;
+      var port = app.address().port;
+      winston.info('Server started succesfully, running on http://' + host + ':' + port);
+      winston.info('Log level is at: ' + process.env.LOG_LEVEL);
 
-var app = express();
-
-// middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// helmet helps you secure your express apps by setting various HTTP headers
-// https://github.com/helmetjs/helmet
-app.use(helmet());
-
-// development only
-// https://github.com/expressjs/morgan
-if (NODE_ENV === 'development') {
-  app.use(morgan('dev'));
-}
-
-// mount API routes
-var connector = new EaoRestConnector({
-  baseUrl: SERVER_URL,
-  path: PROJECT_API_PATH,
-  fields: DATA_FIELDS
-});
-
-app.use('/api', routes.api({ connector: connector }));
-
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (NODE_ENV === 'development') {
-  app.use(function (err, req, res) {
-    res.status(err.status || 500);
-    res.json({
-      message: err.message,
-      error: err
+      // disconnect the repository when the server shuts down
+      app.on('close', function () {
+        rep.disconnect();
+      });
     });
-  });
-}
 
-// production error handler
-// no stacktraces leaked to user
-app.use(function (err, req, res) {
-  res.status(err.status || 500);
-  res.json({
-    message: err.message,
-    error: {}
-  });
-});
-
-var server = app.listen(PORT, HOST, function () {
-  var host = server.address().address;
-  var port = server.address().port;
-  winston.info('Service listening at http://' + host + ':' + port);
-  winston.info('Log level is at: ' + LOG_LEVEL);
-});
+}());
