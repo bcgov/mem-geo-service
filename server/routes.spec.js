@@ -235,7 +235,7 @@ describe('Routing', function () {
   describe('Data Export', function () {
     it('should return a GeoJson FeatureCollection object', function (done) {
       request(app)
-        .get('/api/export/geojson')
+        .get('/geojson')
         .expect('Content-Type', /json/)
         .expect(function (res) {
           // this is should.js syntax, very clear
@@ -277,7 +277,7 @@ describe('Routing', function () {
   describe('Health Check', function () {
     it('should return server health information', function (done) {
       request(app)
-        .get('/api/healthcheck')
+        .get('/healthcheck')
         .expect('Content-Type', /json/)
         .expect(function (res) {
           // this is should.js syntax, very clear
