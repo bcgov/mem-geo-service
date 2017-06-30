@@ -15,7 +15,7 @@
 
     // API ROUTES
     // =============================================================================
-    router.get('/export/geojson', function (req, res, next) {
+    router.get('/geojson', function (req, res, next) {
       repo.findAllProjects()
         .then(function (projects) {
           return exportController.geojson(projects, apiUrl);
