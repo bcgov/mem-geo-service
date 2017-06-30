@@ -1,2 +1,2 @@
-# eao-export-service
-A data export microservice for EAO's EPIC application
+# eao-geo-service
+A data export microservice for importing geospacial data into the BCGW.
