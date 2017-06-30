@@ -16,7 +16,7 @@
 
   // DEPLOYMENT CONFIGURATION
   // =============================================================================
-  process.env.PORT = process.env.PORT || 1337;
+  process.env.PORT = process.env.PORT || 3000;
   process.env.HOST = process.env.HOST || '0.0.0.0';
   process.env.NODE_ENV = process.env.NODE_ENV || 'development';
   process.env.LOG_LEVEL = process.env.LOG_LEVEL || 'debug';
