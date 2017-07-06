@@ -1,7 +1,7 @@
 {
-  "name": "eao-export-service",
+  "name": "mem-geo-service",
   "version": "1.0.0",
-  "description": "A microservice created to support data export functionality within the EAO Project Information & Collaboration system (EPIC)",
+  "description": "A microservice created to support data export functionality within the Ministry of Energy and Mines.",
   "main": "server.js",
   "scripts": {
     "lint": "eslint **/*.js",
@@ -12,18 +12,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bcgov/eao-geo-service.git"
+    "url": "git+https://github.com/bcgov/mem-geo-service.git"
   },
   "keywords": [
     "bcgov",
-    "eao"
+    "mem"
   ],
-  "author": "Alejandro Sanchez <emailforasr@gmail.com>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/bcgov/eao-geo-service/issues"
+    "url": "https://github.com/bcgov/mem-geo-service/issues"
   },
-  "homepage": "https://github.com/bcgov/eao-geo-service#readme",
+  "homepage": "https://github.com/bcgov/mem-geo-service#readme",
   "dependencies": {
     "body-parser": "^1.17.2",
     "compression": "^1.6.2",
