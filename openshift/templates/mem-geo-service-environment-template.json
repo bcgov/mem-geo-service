@@ -2,7 +2,7 @@
   "kind": "Template",
   "apiVersion": "v1",
   "metadata": {
-    "name": "eao-geo-service",
+    "name": "mem-geo-service",
     "annotations": {
       "description": "Template for Node.js",
       "tags": "nodejs",
@@ -10,7 +10,7 @@
     }
   },
   "labels": {
-    "template": "eao-geo-service"
+    "template": "mem-geo-service"
   },
   "objects": [
     {
@@ -120,7 +120,7 @@
       "displayName": "Name",
       "description": "The name assigned to all of the frontend objects defined in this template.",
       "required": true,
-      "value": "eao-geo-service"
+      "value": "mem-geo-service"
     },
     {
       "name": "MEMORY_LIMIT",
@@ -145,7 +145,7 @@
       "name": "APP_IMAGE_NAME",
       "displayName": "Application image name.",
       "description": "Application image name.",
-      "value": "eao-geo-service",
+      "value": "mem-geo-service",
       "required": true
     },
     {
