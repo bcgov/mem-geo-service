@@ -161,6 +161,13 @@
       "description": "Image tag to watch for changes and trigger deployment.",
       "value": "dev",
       "required": true
+    },
+    {
+      "name": "SERVER_URL",
+      "displayName": "Downstream server to query project data.",
+      "description": "The endpoint for what the geo service data pulls from.",
+      "value": "dev",
+      "required": true
     }
   ]
 }
