@@ -166,7 +166,7 @@
       "name": "SERVER_URL",
       "displayName": "Downstream server to query project data.",
       "description": "The endpoint for what the geo service data pulls from.",
-      "value": "dev",
+      "value": "https://mines.empr.gov.bc.ca",
       "required": true
     }
   ]
