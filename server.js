@@ -20,9 +20,8 @@
   process.env.HOST = process.env.HOST || '0.0.0.0';
   process.env.NODE_ENV = process.env.NODE_ENV || 'development';
   process.env.LOG_LEVEL = process.env.LOG_LEVEL || 'debug';
-  process.env.SERVER_URL = process.env.SERVER_URL || 'http://localhost:3000';
-  process.env.PROJECT_API_PATH = process.env.PROJECT_API_PATH || '/api/query/project';
-  process.env.DATA_FIELDS = process.env.DATA_FIELDS || '_id code eacDecision lat lon description currentPhase epicProjectID name proponent status type sector';
+  process.env.SERVER_URL = process.env.SERVER_URL || 'http://localhost:4000';
+  process.env.PROJECT_API_PATH = process.env.PROJECT_API_PATH || '/api/projects/major';
 
   var config = {
     repo: null,
@@ -33,8 +32,7 @@
     },
     restSettings: {
       baseUrl: process.env.SERVER_URL,
-      path: process.env.PROJECT_API_PATH,
-      fields: process.env.DATA_FIELDS
+      path: process.env.PROJECT_API_PATH
     }
   };
 

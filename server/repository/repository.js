@@ -7,9 +7,7 @@
 
   var defaultSettings = {
     baseUrl: process.env.SERVER_URL,
-    path: process.env.PROJECT_API_PATH,
-    fields: process.env.DATA_FIELDS,
-    q: { isPublished: true }
+    path: process.env.PROJECT_API_PATH
   };
 
   /**
@@ -22,14 +20,11 @@
    */
   var repository = function repository(options) {
     var opts = _.merge({}, defaultSettings, options.restSettings);
-
-    // assemble query object; i.e { q: {...}, fields: {...} }
-    var queryObj = _.pick(opts, 'q', 'fields');
     var path = opts.path;
 
-    // connects to a remote REST API and fetches a list of published projects
-    var findAllProjects = function (filter) {
-      return new RestRequest(path).put(filter || queryObj);
+    // connects to a remote REST API and fetches a list of major mines
+    var findAllProjects = function () {
+      return new RestRequest(path).get();
     };
 
     // perform tasks associated with freeing, releasing, or resetting resources; e.g. closing db connections.

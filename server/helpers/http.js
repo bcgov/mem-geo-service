@@ -5,7 +5,7 @@
   var _ = require('lodash');
   var request = require('request-promise');
 
-  var SERVER_URL = process.env.SERVER_URL || 'http://localhost:3000';
+  var SERVER_URL = process.env.SERVER_URL || 'http://localhost:4000';
 
   var combineUris = function combineUris(baseUri, relativeUri) {
     return relativeUri ? _.trimEnd(baseUri, '/') + '/' + _.trimStart(relativeUri, '/') : baseUri;
