@@ -212,7 +212,7 @@ describe('Routing', function () {
 
   // The remote base url is required to create links to projects; i.e http://{BASE_URL}/p/{PROJECT_CODE}/detail
   var testApiSettings = {
-    baseUrl: 'http://localhost:3000'
+    baseUrl: 'http://localhost:4000'
   };
 
   beforeEach(function () {

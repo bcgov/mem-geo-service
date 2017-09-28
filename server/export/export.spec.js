@@ -202,7 +202,7 @@ describe('Controllers : export', function () {
   }];
 
   // The remote base url is required to create links to projects; i.e http://{BASE_URL}/p/{PROJECT_CODE}/detail
-  var testBaseUrl = 'http://localhost:3000';
+  var testBaseUrl = 'http://localhost:4000';
 
   it('should return a valid geojson object', function () {
     return controller
